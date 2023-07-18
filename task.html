@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/nullstyle.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>task0</title>
+  </head>
+  <body>
+    <main class="page">
+      <div class="page__container">
+        <div class="task">
+          <div class="task__condition text">
+            Задача 1. Знайти суми елементів у вказаній області (масиви розділені на 4 рівні частини - не звертаємо увагу на криві малюнки ☺ )
+          </div>
+        </div>
+        <script>
+          // створив масив для завдання 1 лоя всіх підпунктів (вказував зразу що їх є 2)
+          function getElementOfMainArr(minNum, maxNum) {
+            let arr = []
+            for (let i = 0; i < 6; i++) {
+              let randNum = minNum + Math.floor(Math.random() * (maxNum - minNum + 1))
+              arr.push(randNum)
+            }
+            return arr
+          }
+          let userMinNum = parseInt(prompt("Введіть мінімальне чило в масиві"))
+          let userMaxNum = parseInt(prompt("Введіть максимальне чило в масиві"))
+          function createMainArray() {
+            let arr = []
+            for (let i = 0; i < 4; i++) {
+              let elementOfMainArr = getElementOfMainArr(userMinNum, userMaxNum)
+              arr.push(elementOfMainArr)
+            }
+            return arr
+          }
+          //==
+          let mainArr = createMainArray()
+          console.log(mainArr)
+          // загальна функція в яку передуються значення
+          function getSum(mainArr, startLine, endLine, startColumn, endColumn, lineStep, columnStep) {
+            let sum = 0
+            for (let j = startLine; j < endLine; j += lineStep) {
+              for (let i = startColumn; i < endColumn; i += columnStep) {
+                sum += mainArr[j][i]
+              }
+            }
+            return sum
+          }
+          let stepOne = 1
+          let stepTwo = 2
+          // 1) =================================
+          let sumOne = getSum(mainArr, 0, 2, 0, 3, stepOne, stepOne)
+          // 2)====================================
+          let sumTwo = getSum(mainArr, 0, 2, 3, 6, stepOne, stepOne)
+          // 3)====================================
+          let sumThree = getSum(mainArr, 2, 4, 0, 3, stepOne, stepOne)
+          // 4)===================================
+          let sumFour = getSum(mainArr, 2, 4, 3, 6, stepOne, stepOne)
+          // 5) Суму парних рядків ==========================
+          let sumOfEvenLines = getSum(mainArr, 1, 4, 0, 6, stepTwo, stepOne)
+          // 6) Суму непарних стовпців =============================
+          let sumOfOddColumns = getSum(mainArr, 0, 4, 0, 6, stepOne, stepTwo)
+          // 7) У парних рядках – непарні стовпці, у непарних – парні.  =======================
+          function getCheesSum(mainArr, startLine, endLine, endColumn, lineStep, columnStep) {
+            let sum = 0
+            let j
+            let i
+            for (j = startLine; j < endLine; j += lineStep) {
+              if (j % 2 === 0) startColumn = 1
+              else startColumn = 0
+              for (i = startColumn; i < endColumn; i += columnStep) {
+                sum += mainArr[j][i]
+              }
+            }
+            return sum
+          }
+          let cheesSum = getCheesSum(mainArr, 0, 4, 6, stepOne, stepTwo)
+          document.write(`
+          1) сума = ${sumOne} <br/>
+          <br/>
+          2) сума = ${sumTwo} <br/>
+          <br/>
+          3) сума = ${sumThree} <br/>
+          <br/>
+          4) сума = ${sumFour} <br/>
+          <br/>
+          5) Суму парних рядків = ${sumOfEvenLines} <br/>
+          <br/>
+          6) Суму непарних стовпців = ${sumOfOddColumns} <br/>
+          <br/>
+          7) У парних рядках – непарні стовпці, у непарних – парні. = ${cheesSum} 
+          `)
+        </script>
+      </div>
+    </main>
+  </body>
+</html>
